@@ -80,6 +80,19 @@ useEffect(() => {
     );
   }
 
+  const addChapter = () => {
+  const newChapterTitle = prompt("Enter Chapter Title:");
+  if (!newChapterTitle) return;
+
+  const newChapter = { title: newChapterTitle, content: "<p>New Chapter Content...</p>" };
+  
+  const updatedBooks = { ...books };
+  updatedBooks[activeBook] = [...updatedBooks[activeBook], newChapter];
+  
+  setBooks(updatedBooks);
+  setActiveChapter(updatedBooks[activeBook].length - 1); // Switch to the new chapter
+};
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#131314] text-white">
       <audio autoPlay loop src="/music.mp3" />
@@ -93,6 +106,19 @@ useEffect(() => {
           >
             {Object.keys(books).map(b => <option key={b} value={b}>{b}</option>)}
           </select>
+        </div>
+
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xs uppercase text-gray-500 font-bold tracking-widest">Chapters</h3>
+          {userRole === 'EDIT' && (
+            <button 
+              onClick={addChapter}
+              className="text-blue-500 hover:text-blue-400 text-xl font-bold"
+              title="Add Chapter"
+            >
+              +
+            </button>
+          )}
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
